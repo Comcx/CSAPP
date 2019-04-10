@@ -20,36 +20,148 @@ int func() {
 /*Single variable statement outside*/
 int c;
 int d = 2;
-
+int *ap;
 
 #+END_SRC
 
 - Turing code:
-#+BEGIN_SRC
-/*Single variable statement inside*/
-nop # a
-movl  $1, -4(%rbp) #b
+#+BEGIN_SRC asm
 
+/*Single variable statement inside*/
+func:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$32, %rsp
+	movq	%fs:40, %rax
+	movq	%rax, -8(%rbp)
+	xorl	%eax, %eax
+	movl	$1, -20(%rbp)
+	leaq	-20(%rbp), %rax
+	movq	%rax, -16(%rbp)
+	nop
+	movq	-8(%rbp), %rdx
+	xorq	%fs:40, %rdx
+	je	.L2
+	call	__stack_chk_fail@PLT
+.L2:
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
 /*Single variable statement outside*/
-.comm  c, 4, 4 # c
-d:   .long   4 # d
+.LFE0:
+	.size	func, .-func
+	.comm	c,4,4
+	.globl	d
+	.data
+	.align 4
+	.type	d, @object
+	.size	d, 4
+d:
+	.long	2
+	.comm	ap,8,8
+	.ident	"GCC: (GNU) 8.2.1 20181127"
+
+
+//Simple variable inside  without assignment is none;  
+//Simple variable inside  with    assignment is assigned;  
+//Simple variable outside without assignment is command .comm;  
+//Simple variable outside with    assignment is assigned directly;  
 
 #+END_SRC
 
-Simple variable inside  without assignment is none;  
-Simple variable inside  with    assignment is assigned;  
-Simple variable outside without assignment is command .comm;  
-Simple variable outside with    assignment is assigned directly;  
-
-
-
 *** Variable Assignments
+- Testing code:
+#+BEGIN_SRC  c
+void func() {
+  int a;
+  a = 7;
+  int b = 7;
+}
+
+#+END_SRC
+
+- Turing code:
+#+BEGIN_SRC  asm
+func:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	$7, -8(%rbp) // a = 7
+	movl	$7, -4(%rbp) // b = 7
+	nop
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	func, .-func
+	.ident	"GCC: (GNU) 8.2.1 20181127"
+	.section	.note.GNU-stack,"",@progbits
+
+//Assignment is just movement
+
+
+#+END_SRC
+
 *** Flow Control
 **** if-else
+- Testing code:
+#+BEGIN_SRC c
+void func() {
+
+  int a = 1;
+  if(a == 0) {
+    int b = 5;
+  }
+  else {
+    int b = 7;
+  }
+}
+
+#+END_SRC
+
+- Turing code:
+#+BEGIN_SRC  asm
+func:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	$1, -12(%rbp)
+	cmpl	$0, -12(%rbp)
+	jne	.L2
+	movl	$5, -8(%rbp)
+	jmp	.L4
+.L2:
+	movl	$7, -4(%rbp)
+.L4:
+	nop
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+
+
+#+END_SRC
+
+
 **** switch-case
 **** while-do & do-while
 **** for
 **** break & continue
+
 *** Function Statements
 *** Function Definition
 *** Struct Structure
@@ -74,6 +186,10 @@ Simple variable outside with    assignment is assigned directly;
 *** If(?:) expression
 *** String
 *** Function apply
+*** Pointer operations
+**** &
+**** *
+**** []
 
 ** Others
 
