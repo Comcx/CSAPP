@@ -153,12 +153,83 @@ func:
 	.cfi_def_cfa 7, 8
 	ret
 
+// Simple jump instruction
+#+END_SRC
+
+**** switch-case
+- Testing code:
+#+BEGIN_SRC c
+void func() {
+  char c = 'c';
+  int ans;
+  switch(c) {
+  case 'a':
+    ans = 'a';
+    break;
+  case 'b':
+    ans = 'b';
+    break;
+  case 'c':
+    ans = c;
+    break;
+  default:
+  }
+}
+
+#+END_SRC
+
+- Turing code:
+#+BEGIN_SRC asm
+func:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movb	$99, -5(%rbp)
+	movsbl	-5(%rbp), %eax
+	cmpl	$98, %eax
+	je	.L2
+	cmpl	$99, %eax
+	je	.L3
+	cmpl	$97, %eax
+	jne	.L6
+	movl	$97, -4(%rbp)
+	jmp	.L5
+.L2:
+	movl	$98, -4(%rbp)
+	jmp	.L5
+.L3:
+	movsbl	-5(%rbp), %eax
+	movl	%eax, -4(%rbp)
+	jmp	.L5
+.L6:
+	nop
+.L5:
+	nop
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+
+// Switch sometimes can be faster than if-else, coz it can use a jump table
+// to speed up jumping branches.
+
+#+END_SRC
+
+**** while-do & do-while
+- Testing code:
+#+BEGIN_SRC 
+
+#+END_SRC
+
+- Turing code:
+#+BEGIN_SRC 
 
 #+END_SRC
 
 
-**** switch-case
-**** while-do & do-while
 **** for
 **** break & continue
 
