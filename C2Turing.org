@@ -7,9 +7,46 @@
 
 ** Statements
 *** Variable Statements
+- Testing code:
+#+BEGIN_SRC C
+/*Single variable statement inside*/
+int func() {
+  int a; //No use after
+  int b = 1; //with assignment
+  int *p;
+  int *pp = &b;
+}
+
+/*Single variable statement outside*/
+int c;
+int d = 2;
+
+
+#+END_SRC
+
+- Turing code:
+#+BEGIN_SRC
+/*Single variable statement inside*/
+nop # a
+movl  $1, -4(%rbp) #b
+
+/*Single variable statement outside*/
+.comm  c, 4, 4 # c
+d:   .long   4 # d
+
+#+END_SRC
+
+Simple variable inside  without assignment is none;  
+Simple variable inside  with    assignment is assigned;  
+Simple variable outside without assignment is command .comm;  
+Simple variable outside with    assignment is assigned directly;  
+
+
+
 *** Variable Assignments
 *** Flow Control
 **** if-else
+**** switch-case
 **** while-do & do-while
 **** for
 **** break & continue
@@ -39,6 +76,7 @@
 *** Function apply
 
 ** Others
+
 
 * Turing code(Assembly) to C
 
