@@ -1,0 +1,54 @@
+#+TITLE:  C to Turing code(Assembly) Tests & Records
+#+AUTHOR: Comcx
+#+DATE:   <2019-04-11 四>
+
+
+* C to Turing code(Assembly)
+
+** Statements
+*** Variable Statements
+*** Variable Assignments
+*** Flow Control
+**** if-else
+**** while-do & do-while
+**** for
+**** break & continue
+*** Function Statements
+*** Function Definition
+*** Struct Structure
+
+** Expressions
+*** Boolean operations
+**** |
+**** &
+**** !
+**** ==
+**** !=
+**** ||
+**** &&
+**** <
+**** >
+*** Arithmetic operations
+**** +
+**** -
+**** *
+**** /
+**** %
+*** If(?:) expression
+*** String
+*** Function apply
+
+** Others
+
+* Turing code(Assembly) to C
+
+
+
+
+
+
+
+
+
+
+
