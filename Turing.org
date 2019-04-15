@@ -1,17 +1,18 @@
 
 
 PC CC Stat DMEM
-AX Accumulator
-BX Base
-CX Count
-DX Data
-BP Base Pointer
-SP Stack Pointer
-SI Source Index
-DI Destination Index
+| AX | Accumulator       |
+| BX | Base              |
+| CX | Count             |
+| DX | Data              |
+| BP | Base Pointer      |
+| SP | Stack Pointer     |
+| SI | Source Index      |
+| DI | Destination Index |
 R08 R09 R10 R11 R12 R13 R14
 
 Command = none | move | opera | halt
+
 Command = jump | call | ret   | push | pop | comp | test
 
 
